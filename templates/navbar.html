@@ -1,20 +1,20 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary w-100" data-bs-theme="dark">
-    <div class="container-fluid">
-      <nav class="navbar bg-body-tertiary">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                <img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png' %}" alt="Bootstrap" width="60" height="60">
+<nav class="navbar navbar-expand-lg w-100 minha-navbar">
+    <div class="container-fluid minha-navbar">
+      <nav class="navbar minha-navbar">
+            <div class="container minha-navbar">
+                <a class="navbar-brand minha-navbar" href="/">
+                <img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png' %}" alt="Logo" width="60" height="60">
                </a>
             </div>
        </nav>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggle minha-navbarr" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon "></span>
       </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse minha-navbar" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 minha-navbar">
             {% if request.user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item minha-navbar">
               <a href="{% url 'user' request.user.username %}">
                 <img src="{{foto_de_perfil.url}}" alt="" style="width: 40px; height: 40px;">  
               </a>
@@ -59,7 +59,11 @@
       </div>
     </div>
 </nav>
-
+<style>
+  .minha-navbar {
+    background-color: #745dab;
+  }
+</style>
 <script>
   const navLinks = document.querySelectorAll('.nav-link');
   
