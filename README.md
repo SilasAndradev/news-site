@@ -1,8 +1,8 @@
 # Jornal IF Baiano
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Ghs-d/JIFB?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/Ghs-d/JIFB?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/Ghs-d/JIFB?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/SilasAndradev/JIFB?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/SilasAndradev/JIFB?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/SilasAndradev/JIFB?style=for-the-badge)
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
@@ -33,13 +33,13 @@ Para instalar o JIFB, siga estas etapas:
 Linux e macOS:
 
 ```
-python3 -m pip install -r requirements.txt
+$ python3 -m pip install -r requirements.txt
 ```
 
 Windows:
 
 ```
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ## ☕ Usando JIFB
@@ -47,7 +47,7 @@ pip install -r requirements.txt
 Para usar JIFB, siga estas etapas:
 
 ```
-python manage.py runserver
+$ python manage.py runserver
 ```
 
 
