@@ -8,22 +8,17 @@
                </a>
             </div>
        </nav>
-      <button class="navbar-toggle minha-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
+       <button class="navbar-toggler" role="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
         <div class="collapse navbar-collapse minha-navbar" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 minha-navbar">
-            {% if request.user.is_authenticated %}
-            <li class="nav-item minha-navbar">
-              <a href="{% url 'user' request.user.username %}">
-                <img src="{{foto_de_perfil.url}}" alt="" style="width: 40px; height: 40px;">  
-              </a>
-            </li>
-            {% endif %}
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Início</a>
+              <a class="nav-link" aria-current="page" href="/">Início</a>
             </li>
-            <a class="nav-link" href="{% url 'quem_somos' %}">Quem somos</a>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'quem_somos' %}">Quem somos</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'noticia' 'feed' %}">Ver notícias</a>
             </li>
@@ -52,16 +47,40 @@
             </li>
             {% endif %}
           </ul>
+          {% if request.user.is_authenticated %}
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'user' request.user.username %}"  role="button">
+                    <img src="{{foto_de_perfil.url}}" alt="Perfil" class="rounded-circle" style="width: 40px; height: 40px;">
+                  </a>
+                </li>
+            </ul>
+            {% endif %}
             <form class="d-flex" role="search" method="GET" action="{% url 'procurar' %}">
               <input class="form-control me-2" name="q" type="text" placeholder="Pesquisar" aria-label="Pesquisar">
-              <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+              <button class="btn btn-pesquisar" type="submit">Pesquisar</button>
             </form>
       </div>
     </div>
 </nav>
 <style>
+  .nav-link {
+    color: white;
+  }
+  .nav-link.active {
+  color: white !important;
+}
   .minha-navbar {
     background-color: #745dab;
+    color: white;
+  }
+  .btn-pesquisar {
+    background-color: #5cd65c;
+    color: white;
+    border: none;
+  }
+  .btn-pesquisar:hover {
+    background-color: #4CAF50;
   }
 </style>
 <script>
