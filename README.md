@@ -53,13 +53,16 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
 
 <table>
   <tr>
-    <td align="center">
-      <a href="https://github.com/SilasAndradev" title="Desenvolvedor Back-end">
-        <img src="https://avatars.githubusercontent.com/u/177932208" width="100px;" alt="Foto de Silas Andrade no GitHub"/><br>
-        <sub>
-          <b>Silas Andrade</b>
-        </sub>
-      </a>
+    <td align="center"> 
+      <a href="https://github.com/Ghs-d" title="Front-End Developer"> 
+      <img src="https://avatars.githubusercontent.com/u/186340489" width="100px;" alt="Photo by Ghs-d on GitHub"/>
+      <br> 
+      <sub> 
+        <b>
+          Guilherme
+        </b> 
+      </sub> 
+    </a> 
     </td>
   </tr>
 </table>
