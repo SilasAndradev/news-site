@@ -23,32 +23,28 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você instalou `Python 3.13`
-- Você tem uma máquina `Windows, Linux ou MacOS`.
+- Você instalou `Python 3.13.2`
+<!-- Você tem uma máquina `<Windows / Linux / Mac>`. Indique qual sistema operacional é compatível / não compatível.
+- Você leu `<guia / link / documentação_relacionada_ao_projeto>`.>-->
 
-## 🚀 Instalando JIFB
+## 🚀 Instalando JIFB:
 
 Para instalar o JIFB, siga estas etapas:
 
-Linux e macOS:
-
 ```
-$ python3 -m pip install -r requirements.txt
+$ git clone https://github.com/SilasAndradev/JIFB.git
 ```
 
-Windows:
+## ☕ Usando JIFB:
+
+Para usar JIFB:
 
 ```
+$ cd JIFB
 $ pip install -r requirements.txt
-```
-
-## ☕ Usando JIFB
-
-Para usar JIFB, siga estas etapas:
-
-```
 $ python manage.py runserver
 ```
+
 
 
 ## 🤝 Desenvolvedor Back-end
