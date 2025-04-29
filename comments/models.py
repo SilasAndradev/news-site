@@ -13,6 +13,9 @@ class Comentario(models.Model):
     
     def __str__(self):
         return f'{self.autor.user.username} : {self.body[0:30]}'
+    
+    class Meta:
+        ordering = ['-created']
 
 class GosteiComentario(models.Model):
     comment = models.ForeignKey(Comentario, on_delete=models.CASCADE)

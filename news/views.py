@@ -39,7 +39,7 @@ def NoticiaPublicar(request):
     context = {
         'arquivo_form':arquivo_form,
         'noticia_form':noticia_form,
-        'foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
+        'minha_foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
     }
     return render(request, "news/noticia_form.html", context)
 
@@ -78,7 +78,8 @@ def NoticiaPage(request, pk):
                     'body': comentario.body,
                     'autor': comentario.autor.user.username,
                     'foto': comentario.autor.foto_de_perfil.url if hasattr(comentario.autor.foto_de_perfil, 'url') else f"/media/{comentario.autor.foto_de_perfil}",
-                    'data': comentario.created.strftime('%d %b %Y - %H:%M')
+                    'data': comentario.created.strftime('%d %b %Y - %H:%M') if comentario.created else ''
+
                 })
 
             context = {
@@ -86,7 +87,7 @@ def NoticiaPage(request, pk):
                 'noticia': noticia,
                 'arquivos': arquivos,
                 'comentarios': comentarios,
-                'foto_de_perfil': perfil.foto_de_perfil if perfil else None
+                'minha_foto_de_perfil': perfil.foto_de_perfil if perfil else None
             }
 
             if not noticia.visivel:
@@ -102,7 +103,7 @@ def NoticiaPage(request, pk):
         perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
         return render(request, "news/news.html", {
             'noticias': noticias,
-            'foto_de_perfil': perfil.foto_de_perfil if perfil else None
+            'minha_foto_de_perfil': perfil.foto_de_perfil if perfil else None
         })
 
     return redirect('home')
@@ -169,7 +170,7 @@ def NoticiaEditar(request, pk):
         'noticia_form': noticia_form,
         'arquivos_formset': arquivos_formset,
         'noticia': noticia,
-        'foto_de_perfil':foto_de_perfil
+        'minha_foto_de_perfil':foto_de_perfil
     }
     return render(request, "news/editar.html", context)
 
@@ -204,5 +205,5 @@ def NoticiaExcluir(request, pk):
 
     return render(request, "news/excluir.html", {
                                                 'obj': noticia,
-                                                'foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
+                                                'minha_foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
                                                 })

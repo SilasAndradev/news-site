@@ -17,10 +17,12 @@ def UserProfile(request, pk):
     perfil = Perfil.objects.get(user=usuario)
     foto_de_perfil = perfil.foto_de_perfil
 
+    minha_foto_de_perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
 
     context = {
         "usuario":usuario,
         "foto_de_perfil":foto_de_perfil,
+        "minha_foto_de_perfil":minha_foto_de_perfil.foto_de_perfil,
         "perfil":perfil
     }
     return render(request, "users/profile_user.html", context)
@@ -32,22 +34,24 @@ def EditarUserProfile(request, pk):
 
     perfil = Perfil.objects.get(user=usuario)
     
+    minha_foto_de_perfil = Perfil.objects.get(user=request.user)
     if request.method == 'POST':
         Path(perfil.foto_de_perfil.path).unlink(missing_ok=True)
         profile_form = EditarUserProfileForm(request.POST, request.FILES)
         
         if profile_form.is_valid():
-
+            print(perfil.foto_de_perfil)
             perfil.bio = profile_form.cleaned_data['bio']
-            perfil.foto_de_perfil = profile_form.cleaned_data['foto_de_perfil']
+            if profile_form.cleaned_data['foto_de_perfil'] !=  None:
+                perfil.foto_de_perfil = profile_form.cleaned_data['foto_de_perfil']
             
             perfil.save()
             return redirect('user', pk)
 
     else:
         profile_form = EditarUserProfileForm(instance=perfil)
-
     context = {
         "profile_form":profile_form,
+        "minha_foto_de_perfil":minha_foto_de_perfil.foto_de_perfil,
     }
     return render(request, "users/editar_profile.html", context)

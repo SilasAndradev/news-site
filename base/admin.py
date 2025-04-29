@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import Perfil
 from news.models import *
 from comments.models import *
-from users.models import *
 
 admin.site.register(Perfil)
 admin.site.register(Noticia)

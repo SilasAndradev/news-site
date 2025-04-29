@@ -64,7 +64,7 @@ def RegisterUser(request):
                 user=user,
                 pode_comentar=True,
                 pode_alterar_foto_de_perfil=True,
-                foto_de_perfil="foto_de_perfis/default.jpg"
+                foto_de_perfil="perfis/default.jpg"
             )
 
             login(request, user)
@@ -87,13 +87,13 @@ def HomePage(request):
         context = {
         'noticias':noticias,
         'perfil':perfil,
-        'foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
+        'minha_foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
     }
     else:
         context = {
             'noticias':noticias,
             'perfil':None,
-            'foto_de_perfil':None
+            'minha_foto_de_perfil':None
         }
     return render(request, "base/index.html", context)
 

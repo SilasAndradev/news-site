@@ -30,7 +30,8 @@
   <div class="comment-content">{{ comentario.body }}</div>
   
   <div>
-    {% for resposta in comentario.Resposta.all %}
-    {% include 'comments/resposta.html' %}
+    {% for resposta in comentario.replies.all %}
+      {% include 'comments/resposta.html' %}
     {% endfor %}
   </div>
+  

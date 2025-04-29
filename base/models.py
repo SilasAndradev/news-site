@@ -11,7 +11,8 @@ class Perfil(models.Model):
     bio = models.TextField(blank=True, null=True)
     
     foto_de_perfil = models.ImageField(
-        upload_to="uploads/perfis"
+        upload_to="uploads/perfis",
+        blank=True
         )
     
     pode_comentar = models.BooleanField(

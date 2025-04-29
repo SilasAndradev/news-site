@@ -11,3 +11,7 @@ class EditarUserProfileForm(ModelForm):
             'bio': forms.TextInput(attrs={'class': 'form-control'}),
             'foto_de_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['foto_de_perfil'].required = False
