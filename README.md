@@ -19,7 +19,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Comentários nas notícias
 - [ ] Respostas nos comentários
 
-## 🤝 Desenvolvedor Back-end
+## 🤝 Contribuidor 
 
 Agradecemos a seguinte pessoa que contribuiu para este projeto:
 
