@@ -6,7 +6,7 @@
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
-> O Jornal IF Baiano é um projeto feito por alunos para compartilhar informações e notícias especificamente para os estudantes dos Campi Baianos.
+> O JIFB é um projeto de um site onde será mostrada inicialmente notícias sobre e para o meu Campus do Instituto Federal Baiano.
 
 ### Ajustes e melhorias
 
