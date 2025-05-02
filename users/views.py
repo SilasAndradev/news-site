@@ -7,7 +7,7 @@ from pathlib import Path
 from .forms import EditarUserProfileForm
 from base.models import Perfil
 
-from comments.models import *
+
 # Create your views here.
 
 

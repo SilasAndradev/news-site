@@ -1,0 +1,43 @@
+.comment {
+    margin-left: 60px; /* recuo em relação ao comentário pai */
+    padding: 0.8rem;
+    background-color: #f7f9fc;
+    border-left: 3px solid #cfd8dc;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-top: 1rem;
+  }
+  
+  .comment-user {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .comment .user-pic {
+    width: 35px;
+    height: 35px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .comment .user-info span {
+    font-weight: bold;
+    font-size: 13px;
+    color: black;
+  }
+  
+  .comment .user-info p {
+    font-size: 11px;
+    color: #acaeb4;
+    margin: 0;
+  }
+  
+  .comment-content {
+    font-size: 13px;
+    color: #5f6064;
+    padding-left: 45px;
+    margin-top: 0.5rem;
+  }
+  

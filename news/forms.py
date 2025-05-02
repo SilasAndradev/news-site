@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Noticia, ArquivoNaNoticia
+from .models import Noticia, ArquivoNaNoticia, ComentarioNaNoticia
 from django import forms
 from django.forms import modelformset_factory
 
@@ -52,3 +52,30 @@ ArquivoFormSet = modelformset_factory(
     extra=0, 
     can_delete=True
     )
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = ComentarioNaNoticia
+        fields = ["comentario"]
+        labels = {"comentario": ""}
+        widgets = {
+            "comentario": forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite aqui...',
+                'style': 'resize:none;margin-left:20px'
+            })
+        }
+
+class RespostaForm(forms.ModelForm):
+    class Meta:
+        model = ComentarioNaNoticia
+        fields = ["comentario", "pai"]
+        labels = {"comentario": ""}
+        widgets = {
+            "comentario": forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite sua resposta...',
+                'style': 'resize:none;margin-left:20px'
+            }),
+            "pai": forms.HiddenInput()
+        }

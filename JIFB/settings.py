@@ -52,7 +52,6 @@ LOCAL_APPS = [
     'news.apps.NewsConfig',
     'users.apps.UsersConfig',
     'busca.apps.BuscaConfig',
-    'comments.apps.CommentsConfig',
     ]
   
 

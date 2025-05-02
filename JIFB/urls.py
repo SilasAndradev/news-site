@@ -23,7 +23,7 @@ from news.views import NoticiaPublicar, NoticiaEditar, NoticiaExcluir, NoticiaPa
 from busca.views import Procurar
 from users.views import *
 from base.views import *
-from comments.views import *
+
 """
 @api.get("/add")
 def add(request, a: int, b: int):
@@ -46,8 +46,10 @@ urlpatterns = [
     path('u/', RedirectToHome),
     path('u/<str:pk>', UserProfile, name='user'),
     path('u/editar/<str:pk>', EditarUserProfile, name='editar_user'),
+    
 
-    path('excluir-comentario/<str:pk>/', ComentarioExcluir, name='excluir-comentario'),
+
+
 
 
 ]

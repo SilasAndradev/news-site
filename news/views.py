@@ -9,10 +9,10 @@ from django.core import exceptions
 from django.db.models import Q
 from pathlib import Path
 
-from .forms import NoticiaForm, ArquivosForm, ArquivoFormSet
+from .forms import NoticiaForm, ArquivosForm, ArquivoFormSet, ComentarioForm, RespostaForm
 from base.models import Perfil
-from comments.models import Comentario, Resposta
-from .models import Noticia, ArquivoNaNoticia
+
+from .models import Noticia, ArquivoNaNoticia, ComentarioNaNoticia
 
 
 
@@ -48,53 +48,46 @@ def NoticiaPublicar(request):
 
 def NoticiaPage(request, pk):
     if pk.isnumeric():
-        noticia = get_object_or_404(Noticia, pk=pk)
-        arquivos = list(ArquivoNaNoticia.objects.filter(noticia=noticia).values('arquivos'))
-        comentarios = list(Comentario.objects.filter(noticia=noticia).order_by('-created'))
+        noticia = get_object_or_404(Noticia, id=pk)
+        arquivos = ArquivoNaNoticia.objects.filter(noticia=noticia)
+        comentarios = ComentarioNaNoticia.objects.filter(noticia=noticia).order_by('-data')
 
         if noticia.visivel or (noticia.visivel and request.user.is_staff):
             conteudo_html = noticia.corpo
             perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
 
-            if request.method == 'POST':
-                if not request.user.is_authenticated:
-                    return redirect('login')
-                
+            if request.method == 'POST' and request.user.is_authenticated:
                 if not perfil.pode_comentar:
                     return HttpResponse('<h1>Você está proibido de comentar</h1>')
 
-                body = request.POST.get('body', '').strip()
-                if not body:
-                    return JsonResponse({'error': 'Comentário não pode estar vazio.'}, status=400)
+                if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
+                    form = RespostaForm(request.POST)
+                else:
+                    form = ComentarioForm(request.POST)
 
-                comentario = Comentario.objects.create(
-                    autor=perfil,
-                    noticia=noticia,
-                    body=body
-                )
-
-                return JsonResponse({
-                    'id': comentario.id,
-                    'body': comentario.body,
-                    'autor': comentario.autor.user.username,
-                    'foto': comentario.autor.foto_de_perfil.url if hasattr(comentario.autor.foto_de_perfil, 'url') else f"/media/{comentario.autor.foto_de_perfil}",
-                    'data': comentario.created.strftime('%d %b %Y - %H:%M') if comentario.created else ''
-
-                })
+                if form.is_valid():
+                    comentario = form.save(commit=False)
+                    comentario.autor = perfil
+                    comentario.noticia = noticia
+                    comentario.save()
+                    return redirect('noticia', pk=pk)
 
             context = {
                 'conteudo_html': conteudo_html,
                 'noticia': noticia,
                 'arquivos': arquivos,
                 'comentarios': comentarios,
-                'minha_foto_de_perfil': perfil.foto_de_perfil if perfil else None
+                'comentario_form': ComentarioForm(),
+                'resposta_form': RespostaForm(),
+                'minha_foto_de_perfil': perfil.foto_de_perfil if perfil else None,
+                'perfil': perfil,
+                'numero_de_comentarios': len(comentarios)
             }
 
             if not noticia.visivel:
                 context['aviso'] = "Essa notícia não está visível para os usuários"
 
             return render(request, "news/noticia_page.html", context)
-
         else:
             return redirect('feed')
 
@@ -207,3 +200,4 @@ def NoticiaExcluir(request, pk):
                                                 'obj': noticia,
                                                 'minha_foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil
                                                 })
+

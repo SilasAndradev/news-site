@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from base.models import Perfil
 
 # Create your models here.
 
@@ -25,3 +26,16 @@ class ArquivoNaNoticia(models.Model):
 
     def __str__(self):
         return f"Arquivo de {self.noticia.título}"
+
+
+class ComentarioNaNoticia(models.Model):
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="comentarios")
+    pai = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="respostas")
+    autor = models.ForeignKey(Perfil, on_delete=models.CASCADE)
+    comentario = models.TextField()
+    data = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comentario[0:13] + "..." + "by" + " " + self.autor.user.username 
+
+    
