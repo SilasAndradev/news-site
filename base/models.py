@@ -22,6 +22,10 @@ class Perfil(models.Model):
     pode_alterar_foto_de_perfil = models.BooleanField(
         default=True
         )
+    
+    verificado = models.BooleanField(
+        default=False
+    )
 
     def __str__(self):
         return self.user.username

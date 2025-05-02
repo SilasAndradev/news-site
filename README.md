@@ -17,7 +17,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Conseguir exlcuir as matérias
 - [x] Sistema de Login
 - [x] Comentários nas notícias
-- [ ] Respostas nos comentários
+- [x] Respostas nos comentários
 
 ## 🤝 Contribuidor 
 

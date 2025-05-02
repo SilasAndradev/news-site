@@ -11,7 +11,7 @@ from .models import Perfil
 from news.models import Noticia
 
 def QuemSomosPage(request):
-    return render(request, 'base/quemsomos.html', {'foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil if request.user.is_authenticated else None})
+    return render(request, 'base/quemsomos.html', {'minha_foto_de_perfil':Perfil.objects.get(user=request.user).foto_de_perfil if request.user.is_authenticated else None})
 
 
 def RedirectToHome(request):

@@ -124,7 +124,7 @@ body {
 
 .comment-content {
   font-size: 15px;
-  color: #5f6064;
+  color: blue;
   padding-left: 50px;
 }
 
@@ -150,33 +150,6 @@ body {
   outline: none;
   background: #f9f9f9;
 }
-
-.formatting {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.send {
-  width: 36px;
-  height: 36px;
-  background-color: #0a84ff;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.send:hover {
-  background-color: #026eda;
-}
-
-.send svg {
-  fill: #fff;
-}
-
 
 
 

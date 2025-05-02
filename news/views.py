@@ -94,12 +94,12 @@ def NoticiaPage(request, pk):
     elif pk == 'feed':
         noticias = Noticia.objects.all().order_by('-updated')
         perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
-        return render(request, "news/news.html", {
+        return render(request, "news/feed.html", {
             'noticias': noticias,
             'minha_foto_de_perfil': perfil.foto_de_perfil if perfil else None
         })
-
-    return redirect('home')
+    else:
+        return redirect('feed')
     
     
 @login_required(login_url='/login')

@@ -19,6 +19,6 @@ def Procurar(request):
     context = {
         'noticias':noticias,    
         'número_de_notícia':número_de_notícia,
-        'foto_de_perfil':foto_de_perfil
+        'minha_foto_de_perfil':foto_de_perfil
     }
     return render(request, "busca/procurar.html", context)

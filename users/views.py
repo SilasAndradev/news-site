@@ -32,15 +32,18 @@ def UserProfile(request, pk):
 def EditarUserProfile(request, pk):
     usuario = User.objects.get(username=pk)
 
+    if request.user.username != pk:
+        return redirect('user', pk)
+
     perfil = Perfil.objects.get(user=usuario)
     
     minha_foto_de_perfil = Perfil.objects.get(user=request.user)
+
     if request.method == 'POST':
         Path(perfil.foto_de_perfil.path).unlink(missing_ok=True)
         profile_form = EditarUserProfileForm(request.POST, request.FILES)
         
         if profile_form.is_valid():
-            print(perfil.foto_de_perfil)
             perfil.bio = profile_form.cleaned_data['bio']
             if profile_form.cleaned_data['foto_de_perfil'] !=  None:
                 perfil.foto_de_perfil = profile_form.cleaned_data['foto_de_perfil']
