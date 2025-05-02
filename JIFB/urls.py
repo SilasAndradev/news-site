@@ -19,10 +19,30 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.urls import path, include
-from news.views import NoticiaPublicar, NoticiaEditar, NoticiaExcluir, NoticiaPage
-from busca.views import Procurar
-from users.views import *
-from base.views import *
+
+from news.views import (
+    NoticiaPublicar, 
+    NoticiaEditar, 
+    NoticiaExcluir, 
+    NoticiaPage, 
+    Procurar
+    )
+
+from users.views import (
+    UserProfile,
+    EditarUserProfile
+    )
+
+from base.views import (
+    RedirectToHome,
+    HomePage,
+    NotFoundPage,
+    LoginPage,
+    LogoutUser,
+    RegisterUser,
+    QuemSomosPage
+
+)
 
 """
 @api.get("/add")
@@ -33,24 +53,28 @@ def add(request, a: int, b: int):
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
-    path('', include('base.urls')),
+
+    # Base APP
+    path('', HomePage, name='home'),
+    path('404', NotFoundPage, name='404'),
+    path('login/', LoginPage, name='login'),
+    path('logout/', LogoutUser, name='logout'),
+    path('register/', RegisterUser, name='register'),
+    path('quem-somos/', QuemSomosPage, name='quem_somos'),
     
+    # News APP
     path('publicar/', NoticiaPublicar, name='publicar'),
     path('editar/<str:pk>/', NoticiaEditar, name='editar'),
     path('excluir/<str:pk>/', NoticiaExcluir, name='excluir'),
     path('noticia/<str:pk>/', NoticiaPage, name='noticia'),
     path('noticia/feed/', NoticiaPage, name='feed'),
-
+    path('noticia/', RedirectToHome),
     path('procurar/', Procurar, name='procurar'),
 
+    # Users APP
     path('u/', RedirectToHome),
     path('u/<str:pk>', UserProfile, name='user'),
     path('u/editar/<str:pk>', EditarUserProfile, name='editar_user'),
-    
-
-
-
-
 
 ]
 
