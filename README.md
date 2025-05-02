@@ -6,7 +6,7 @@
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
-> O Jornal IF Baiano é um projeto feito por alunos para compartilhar informações e notícias especificamente para os estudantes dos Campi Baianos.
+> O JIFB é um projeto de um site onde será mostrada inicialmente notícias sobre e para o meu Campus do Instituto Federal Baiano.
 
 ### Ajustes e melhorias
 
@@ -19,35 +19,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Comentários nas notícias
 - [ ] Respostas nos comentários
 
-## 💻 Pré-requisitos
-
-Antes de começar, verifique se você atendeu aos seguintes requisitos:
-
-- Você instalou `Python 3.13.2`
-<!-- Você tem uma máquina `<Windows / Linux / Mac>`. Indique qual sistema operacional é compatível / não compatível.
-- Você leu `<guia / link / documentação_relacionada_ao_projeto>`.>-->
-
-## 🚀 Instalando JIFB:
-
-Para instalar o JIFB, siga estas etapas:
-
-```
-$ git clone https://github.com/SilasAndradev/JIFB.git
-```
-
-## ☕ Usando JIFB:
-
-Para usar JIFB:
-
-```
-$ cd JIFB
-$ pip install -r requirements.txt
-$ python manage.py runserver
-```
-
-
-
-## 🤝 Desenvolvedor Back-end
+## 🤝 Contribuidor 
 
 Agradecemos a seguinte pessoa que contribuiu para este projeto:
 
