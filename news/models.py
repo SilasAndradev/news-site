@@ -36,6 +36,6 @@ class ComentarioNaNoticia(models.Model):
     data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.comentario[0:13] + "..." + "by" + " " + self.autor.user.username 
+        return self.comentario[0:13] + "..." + "por" + " " + self.autor.user.username 
 
     
