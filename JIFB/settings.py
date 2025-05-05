@@ -51,7 +51,6 @@ LOCAL_APPS = [
     "base.apps.BaseConfig",
     'news.apps.NewsConfig',
     'users.apps.UsersConfig',
-    'busca.apps.BuscaConfig',
     ]
   
 
