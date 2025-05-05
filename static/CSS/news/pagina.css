@@ -121,14 +121,12 @@ body {
   color: #acaeb4;
   margin: 0;
 }
-
 .comment-content {
-  font-size: 12px;
+  font-size: 15px;
   color: black;
   padding-left: 45px;
   margin-top: 0.5rem;
 }
-
 
 .text-box {
   background-color: #f1f1f1;
