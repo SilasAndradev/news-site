@@ -52,7 +52,7 @@ def NoticiaPage(request, pk):
         arquivos = ArquivoNaNoticia.objects.filter(noticia=noticia)
         comentarios = ComentarioNaNoticia.objects.filter(noticia=noticia).order_by('-data')
 
-        if noticia.visivel or (noticia.visivel and request.user.is_staff):
+        if noticia.visivel or ( not noticia.visivel and request.user.is_staff):
             conteudo_html = noticia.corpo
             perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
 
