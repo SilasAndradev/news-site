@@ -133,7 +133,7 @@
 
 /*Quem somos texto*/
 body{
-  background-color: #f8f8f8;
+  background-color: #E6E6FA;
 }
 .quem-somos {
   padding: 40px 20px;
@@ -265,3 +265,141 @@ body{
 
 
 /*Nós gui e silas*/
+ .linha-dev{
+  width: 100%;
+  height: 6px;
+  border-radius: 2px;
+  background-color: #000000;
+  margin-left: auto;
+  margin-right:auto ;
+ }
+
+.cts{
+  background-color: #f9f8f8;
+  border-bottom: 3px solid #673ab7;
+
+
+}
+
+ .dev-section {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  background-color: #c9a7e1;
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.card.back {
+  flex-direction: row;
+}
+
+.card.front {
+flex-direction: row-reverse;
+}
+
+.dev-img {
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  border: 3px solid #1a1a1a;
+  object-fit: cover;
+  margin: auto;
+}
+
+.card-content {
+  padding: 1.5rem;
+  flex: 1;
+  text-align: left;
+}
+
+.card-content h3 {
+  margin-top: 0;
+}
+
+.icons {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 10px;
+}
+
+.icons a {
+  font-size: 1.3rem;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.icons a:hover {
+  color: #0077b5;
+}
+
+
+@media (max-width: 700px) {
+  .linha-dev{
+    margin-top: 150px;
+  }
+  .card.horizontal,
+  .card.horizontal.reverse
+   {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .icons {
+    justify-content: center;
+  }
+
+  .card-content {
+    text-align: center;
+  }
+
+  .dev-img {
+    width: 70%;
+    height: auto;
+  }
+}
+
+/* Órgão Responsável Section */
+.orgao {
+  text-align: center;
+  background-color: #f9f8f8;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  margin-top: 3rem;
+  
+}
+
+.orgao hr {
+  width: 60px;
+  margin: 0 auto 1.5rem auto;
+  border: none;
+  border-top: 3px solid #000000;
+  
+}
+
+.orgao h4 {
+  font-size: 1.6rem;
+  color: #040404;
+  margin-bottom: 1rem;
+}
+
+.logo-cts {
+  width: 100px;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.orgao p {
+  font-size: 1rem;
+  color: #444;
+  margin: 0.5rem 0 0;
+}
