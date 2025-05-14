@@ -6,8 +6,6 @@
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
-> O news-site é um projeto de um site onde será mostrada inicialmente notícias sobre e para o meu Campus do Instituto Federal Baiano.
-
 ### Ajustes e melhorias
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
