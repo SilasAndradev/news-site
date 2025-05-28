@@ -24,8 +24,8 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
 <table>
   <tr>
     <td align="center"> 
-      <a href="https://github.com/SilasAndradev" title="Front-End Developer"> 
-      <img src="https://avatars.githubusercontent.com/u/186340489" width="100px;" alt="Photo by Ghs-d on GitHub"/>
+      <a href="https://github.com/SilasAndradev" title="Back-End Developer"> 
+      <img src="https://avatars.githubusercontent.com/u/186340489" width="100px;" alt="Photo by SilasAndradev on GitHub"/>
       <br> 
       <sub> 
         <b>
@@ -35,7 +35,6 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
     </a> 
     </td>
   </tr>
-  <tr>
     <td align="center"> 
       <a href="https://github.com/Ghs-d" title="Front-End Developer"> 
       <img src="https://avatars.githubusercontent.com/u/177932208" width="100px;" alt="Photo by Ghs-d on GitHub"/>
@@ -47,5 +46,4 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
       </sub> 
     </a> 
     </td>
-  </tr>
 </table>
