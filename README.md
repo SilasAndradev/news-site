@@ -34,7 +34,6 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
       </sub> 
     </a> 
     </td>
-  </tr>
     <td align="center"> 
       <a href="https://github.com/Ghs-d" title="Front-End Developer"> 
       <img src="https://avatars.githubusercontent.com/u/177932208" width="100px;" alt="Photo by Ghs-d on GitHub"/>
@@ -46,4 +45,5 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
       </sub> 
     </a> 
     </td>
+  </tr>
 </table>
