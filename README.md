@@ -29,14 +29,14 @@ Agradecemos a seguinte pessoa que contribuiu para este projeto:
       <br> 
       <sub> 
         <b>
-          Guilherme
+          Silas
         </b> 
       </sub> 
     </a> 
     </td>
     <td align="center"> 
       <a href="https://github.com/Ghs-d" title="Front-End Developer"> 
-      <img src="https://avatars.githubusercontent.com/u/177932208" width="100px;" alt="Photo by Ghs-d on GitHub"/>
+      <img src="https://avatars.githubusercontent.com/u/186340489" width="100px;" alt="Photo by Ghs-d on GitHub"/>
       <br> 
       <sub> 
         <b>
