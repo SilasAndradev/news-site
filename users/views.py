@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 
 from pathlib import Path
 
@@ -26,11 +25,14 @@ def UserProfile(request, pk):
 @login_required(login_url='/login')
 def EditUserProfile(request, pk):
     user = User.objects.get(username=pk)
+    ReaderProfileUser = ReaderProfile.objects.get(user=user)
 
-    if request.user.username != pk and not request.user.is_staff:
+    if request.user.username != pk and not request.user.is_staff or not ReaderProfileUser.PermissionChangeProfile:
         return redirect('user', pk)
 
-    ReaderProfileUser = ReaderProfile.objects.get(user=user)
+    if request.user.is_staff:
+        return redirect('admin:users_readerprofile_change', user.id)
+
 
     if request.method == 'POST':
         profile_form = EditUserProfileForm(request.POST, request.FILES)
@@ -51,7 +53,7 @@ def EditUserProfile(request, pk):
         "ProfilePictureUser":ReaderProfileUser.ProfilePicture,
         "user":ReaderProfileUser
     }
-    return render(request, "users/editar_profile.html", context)
+    return render(request, "users/edit_user.html", context)
 
 @login_required(login_url='/login')
 def BlockProfile(request, pk):
@@ -63,7 +65,7 @@ def BlockProfile(request, pk):
         else:
             profile.CommentPermission = True
             profile.save()
-        return HttpResponse("<h1>Operação concluída com sucesso</h1>")
+        return redirect(request.META.HTTP_REFERER)
     else:
         return redirect('home')
 
@@ -77,7 +79,7 @@ def DeleteAllUserComments(request, pk):
         comments = list(CommentsForm.objects.filter(autor=profile))
         for comment in comments:
             comment.delete()
-        return HttpResponse("<h1>All comments have been successfully deleted</h1>")
+        return redirect(request.META.HTTP_REFERER)
     else:
         return redirect('home')
     
@@ -86,6 +88,6 @@ def CommentDelete(request, pk):
     if request.user.is_staff:
         comment = CommentsForm.objects.get(id=pk)
         comment.delete()
-        return HttpResponse("Comment successfully deleted</h1>")
+        return redirect(request.META.HTTP_REFERER)
     else:
         return redirect('home')
