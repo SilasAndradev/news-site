@@ -28,6 +28,7 @@ from .views import (
     LoginPage,
     LogoutUser,
     RegisterUser,
+    
 )
 
 """
@@ -40,7 +41,7 @@ def add(request, a: int, b: int):
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
 
-    # Base APP
+    # Core APP
     path('', HomePage, name='home'),
     path('404', NotFoundPage, name='404'),
     path('login/', LoginPage, name='login'),

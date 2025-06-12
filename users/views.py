@@ -31,8 +31,6 @@ def EditUserProfile(request, pk):
         return redirect('user', pk)
 
     ReaderProfileUser = ReaderProfile.objects.get(user=user)
-    
-    ReaderProfileRequestUser = ReaderProfile.objects.get(user=request.user)
 
     if request.method == 'POST':
         profile_form = EditUserProfileForm(request.POST, request.FILES)
@@ -50,7 +48,8 @@ def EditUserProfile(request, pk):
         profile_form = EditUserProfileForm(instance=ReaderProfileUser)
     context = {
         "profile_form":profile_form,
-        "ProfilePictureUser":ReaderProfileRequestUser.ProfilePicture,
+        "ProfilePictureUser":ReaderProfileUser.ProfilePicture,
+        "user":ReaderProfileUser
     }
     return render(request, "users/editar_profile.html", context)
 

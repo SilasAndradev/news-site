@@ -137,7 +137,7 @@ def newsPage(request, pk):
             return redirect('feed')
 
     elif pk == 'feed':
-        newss = News.objects.all().order_by('-updated')
+        newss = News.objects.all().order_by('-updated_at')
         perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
         return render(request, "news/feed.html", {
             'newss': newss,

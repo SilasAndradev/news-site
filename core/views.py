@@ -51,17 +51,18 @@ def RegisterUser(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         
-        if form.is_valid:
+        if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-            ReaderProfile.objects.create(
-                user=user,
-                CommentPermission=True,
-                PermissionChangeProfile=True,
-                ProfilePicture="perfis/default.jpg"
+            reader = ReaderProfile.objects.create(
+                user = user,
+                CommentPermission = True, 
+                PermissionChangeProfile = True,
+                ProfilePicture = "uploads/perfis/default.jpg",
+                bio = "Eu sou novo aqui!"
             )
-
+            reader.save()
             login(request, user)
             return redirect('home')
         else:
