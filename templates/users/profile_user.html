@@ -14,11 +14,11 @@
       <img src="{{ ProfilePictureUser.url }}" alt="Foto de Perfil" class="profile-avatar">
 
       <div class="profile-username">@{{ user.username }}</div>
-      <p class="profile-bio">{{ perfil.bio|linebreaks }}</p>
+      <p class="profile-bio">{{ ReaderProfile.bio }}</p>
 
       {% if request.user.username == user.username or request.user.is_staff %}
       <div class="edit-btn">
-        <a href="{% url 'editar_user' user.username %}" class="btn btn-success btn-rounded shadow">Editar Perfil</a>
+        <a href="{% url 'edit-user' user.username %}" class="btn btn-success btn-rounded shadow">Editar Perfil</a>
       </div>
       {% endif %}
     </div>

@@ -83,13 +83,13 @@ def HomePage(request):
         context = {
         'news':news,
         'perfil':perfil,
-        'minha_foto_de_perfil':ReaderProfile.objects.get(user=request.user).ProfilePicture
+        'ProfilePictureUser':ReaderProfile.objects.get(user=request.user).ProfilePicture
     }
     else:
         context = {
             'news':news,
             'perfil':None,
-            'minha_foto_de_perfil':None
+            'ProfilePictureUser':None
         }
     return render(request, "core/index.html", context)
 

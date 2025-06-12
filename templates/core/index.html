@@ -1,6 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
-{% block title %}JIFB{% endblock %}
+{% block title %}Página Inicial{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'CSS/base/noticias.css' %}">
@@ -21,17 +21,17 @@
         <div class="container-noticias">
             <section class="noticias">
                 <div class="noticias-container">
-                    {% for noticia in noticias %}
-                        {% if noticia.visivel == True %}
+                    {% for noticia in news %}
+                        {% if noticia.visible == True %}
                             <div class="noticia-card">
-                                <a href="{% url 'noticia' noticia.id %}">
-                                    <img src="{{ noticia.capa_noticia.url }}" alt="Notícia {{ noticia.id }}">
+                                <a href="{% url 'news' noticia.id %}">
+                                    <img src="{{ noticia.news_cover.url }}" alt="Notícia {{ noticia.id }}">
                                 </a>
                                 <div class="noticia-card-content">
                                     <h3>{{noticia.título}}</h3>
-                                    <p>Publicado em {{noticia.created}}</p>
-                                    <p>Criado por {{noticia.autor}}</p>
-                                    <a href="{% url 'noticia' noticia.id %}" class="noticia-leia">Leia mais</a>
+                                    <p>Publicado em {{noticia.created_at}}</p>
+                                    <p>Criado por {{noticia.author}}</p>
+                                    <a href="{% url 'news' noticia.id %}" class="noticia-leia">Leia mais</a>
                                 </div>
                             </div>
                         {% endif %}

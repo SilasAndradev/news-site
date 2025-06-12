@@ -137,10 +137,10 @@ def newsPage(request, pk):
             return redirect('feed')
 
     elif pk == 'feed':
-        newss = News.objects.all().order_by('-updated_at')
+        news = News.objects.all().order_by('-updated_at')
         perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
         return render(request, "news/feed.html", {
-            'newss': newss,
+            'news': news,
             'ProfilePictureUser': perfil.ProfilePicture if perfil else None
         })
     else:
@@ -237,7 +237,7 @@ def newsEdit(request, pk):
         'news': news,
         'ProfilePictureUser':ProfilePicture
     }
-    return render(request, "news/editar.html", context)
+    return render(request, "news/update.html", context)
 
 
 
@@ -259,15 +259,15 @@ def newsDelete(request, pk):
         archives.delete()
         
         
-        if news.capa_news:
-            Path(news.capa_news.path).unlink(missing_ok=True)
-        if news.corpo:
-            Path(news.corpo.path).unlink(missing_ok=True)
+        if news.news_cover:
+            Path(news.news_cover.path).unlink(missing_ok=True)
+        if news.body:
+            Path(news.body.path).unlink(missing_ok=True)
 
         news.delete()
         return redirect('feed')
 
-    return render(request, "news/excluir.html", {
+    return render(request, "news/delete.html", {
                                                 'obj': news,
                                                 'ProfilePictureUser':ReaderProfile.objects.get(user=request.user).ProfilePicture
                                                 })
@@ -288,4 +288,4 @@ def Search(request):
         'NumberNews':news.count(),
         'ProfilePictureUser':ProfilePicture
     }
-    return render(request, "news/procurar.html", context)
+    return render(request, "news/search.html", context)

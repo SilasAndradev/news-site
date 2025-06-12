@@ -4,7 +4,7 @@
 {% block title %}Editar notícias{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'CSS/news/editar.css' %}" />
+<link rel="stylesheet" href="{% static 'CSS/news/update.css' %}" />
 {% endblock %}
 
 
@@ -16,12 +16,12 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
-    {{ noticia_form.as_p }}
+    {{ news_form.as_p }}
     
     <!-- Arquivos Existentes -->
     <h3>Arquivos Existentes</h3>
-    {{ arquivos_formset.management_form }}
-    {% for form in arquivos_formset %}
+    {{ archives_formset.management_form }}
+    {% for form in archives_formset %}
     <div class="arquivo-box">
       {{ form.id }}
       {{ form.arquivos.label_tag }} {{ form.arquivos }}

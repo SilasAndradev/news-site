@@ -49,18 +49,18 @@ urlpatterns = [
     path('register/', RegisterUser, name='register'),
     
     # News APP
-    path('publicar/', newsPublish, name='publicar'),
-    path('editar/<str:pk>/', newsEdit, name='editar'),
-    path('excluir/<str:pk>/', newsDelete, name='excluir'),
-    path('noticia/<str:pk>/', newsPage, name='noticia'),
-    path('noticia/feed/', newsPage, name='feed'),
-    path('noticia/', RedirectToHome),
+    path('post-news/', newsPublish, name='post-news'),
+    path('edit/<str:pk>/', newsEdit, name='edit-user'),
+    path('delete/<str:pk>/', newsDelete, name='delete-noticia'),
+    path('news/<str:pk>/', newsPage, name='noticia'),
+    path('news/feed/', newsPage, name='feed'),
+    path('news/', RedirectToHome),
     path('search/', Search, name='search'),
 
     # Users APP
     path('u/', RedirectToHome),
     path('u/<str:pk>', UserProfile, name='user'),
-    path('u/editar/<str:pk>', EditUserProfile, name='editar_user'),
+    path('u/edit/<str:pk>', EditUserProfile, name='edit-user'),
 
 
 
