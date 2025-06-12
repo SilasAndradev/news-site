@@ -12,7 +12,22 @@
   box-sizing: border-box;
   overflow-x: hidden;
 }
-
+.direitoautoral:link {
+    color: #000000; /* Cor para links não visitados */
+    text-decoration: none;
+}
+.direitoautoral:visited {
+    color: #000000; /* Mesma cor para links visitados */
+    text-decoration: none;
+}
+.direitoautoral:hover {
+    color: #555555; /* Cor diferente ao passar o mouse, ex.: cinza */
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse, se quiser */
+}
+.direitoautoral:active {
+    color: #000000; /* Cor ao clicar */
+    text-decoration: none;
+}
 body {
   margin: 0;
   padding: 0;
@@ -36,8 +51,8 @@ body {
 }
 
 .footer-logo-jif {
-  width: 250px;
-  height: auto;
+  width: 90px;
+  height: 90px;
   margin: 0;
 }
 
@@ -86,12 +101,11 @@ body {
 </style>
 
 <footer class="footer">
-  <div class="footer-container">
-          <a href="https://www.ifbaiano.edu.br/unidades/santaines/" target=”ifbaiano csi”><img src="{% static 'img/LOGO_IFBAIANO.png' %}" alt="Logo do Rodapé" class="footer-image"></a>
-          <a href="/"><img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png' %}" alt="Logo do Rodapé JIFB" class="footer-logo-jif"></a>
   </div>
       <hr>
     <div>
-        <p >©  Criado por Guilherme Henrique e Silas Andrade | IF Baiano Campus Santa Inês</p>
+        <p>
+        ©  Criado por <a class="direitoautoral" rel="noreferrer" target="_blank" href="https://github.com/SilasAndradev/">Silas Andrade</a> e <a class="direitoautoral" rel="noreferrer" target="_blank" href="https://github.com/Ghs-d/">Guilherme Henrique</a>
+        </p>
     </div>
 </footer>

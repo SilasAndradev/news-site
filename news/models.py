@@ -1,41 +1,41 @@
-from django.db import models
 from django.contrib.auth.models import User
-from base.models import Perfil
+from users.models import ReaderProfile
+from django.db import models
 
 # Create your models here.
 
-class Noticia(models.Model):
-    autor = models.ForeignKey(User, on_delete=models.CASCADE)
-    título = models.CharField(max_length=500)
+class News(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=500)
     
-    corpo = models.FileField(upload_to="uploads/noticias/noticias/%Y/%m/%d/")
-    capa_noticia = models.ImageField(upload_to="uploads/noticias/CAPAS/%Y/%m/%d")
+    body = models.FileField(upload_to="uploads/noticias/tempFile/")
+    news_cover = models.ImageField(upload_to="uploads/noticias/CAPAS/%Y/%m/%d")
 
-    visivel = models.BooleanField(default=True)
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
+    visible = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
-        return self.título
+        return self.title
 
 
-class ArquivoNaNoticia(models.Model):
-    noticia = models.ForeignKey(Noticia, related_name='arquivos', on_delete=models.CASCADE)
-    arquivos = models.FileField(upload_to="uploads/noticias/arquivos/", blank=True, null=True)
-
-    def __str__(self):
-        return f"Arquivo de {self.noticia.título}"
-
-
-class ComentarioNaNoticia(models.Model):
-    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="comentarios")
-    pai = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="respostas")
-    autor = models.ForeignKey(Perfil, on_delete=models.CASCADE)
-    comentario = models.TextField()
-    data = models.DateTimeField(auto_now_add=True)
+class NewsArchives(models.Model):
+    news = models.ForeignKey(News, related_name='arquivos', on_delete=models.CASCADE)
+    archives = models.FileField(upload_to="uploads/noticias/arquives/", blank=True, null=True)
 
     def __str__(self):
-        return self.comentario[0:13] + "..." + "por" + " " + self.autor.user.username 
+        return f"Archive from {self.news.title}"
+
+
+class NewsComments(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="comentarios")
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="respostas")
+    author = models.ForeignKey(ReaderProfile, on_delete=models.CASCADE)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.body[0:13] + "..." + "por" + " " + self.author.user.username 
 
     

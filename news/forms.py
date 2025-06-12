@@ -1,7 +1,7 @@
-from django.forms import ModelForm
-from .models import Noticia, ArquivoNaNoticia, ComentarioNaNoticia
-from django import forms
+from .models import News,NewsArchives, NewsComments
 from django.forms import modelformset_factory
+from django.forms import ModelForm
+from django import forms
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -21,61 +21,61 @@ class MultipleFileField(forms.FileField):
         return result
 
 
-class NoticiaForm(ModelForm):
+class NewsForm(ModelForm):
     class Meta:
-        model = Noticia
+        model = News
         fields = '__all__'
-        exclude = ['autor']
+        exclude = ['author']
         widgets = {
-            'título': forms.TextInput(attrs={'class': 'form-control'}),
-            'corpo': forms.FileInput(attrs={'class': 'form-control'}),
-            'capa_noticia': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'visivel': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'body': forms.FileInput(attrs={'class': 'form-control'}),
+            'news_cover': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'visible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
-class ArquivosForm(forms.ModelForm):
+class ArchivesForm(forms.ModelForm):
     arquivos = MultipleFileField()
     class Meta:
-        model = ArquivoNaNoticia
-        fields = ['arquivos']
+        model = NewsArchives
+        fields = ['archives']
         widgets = {
-            'arquivos': MultipleFileInput(attrs={'class': 'form-control'})
+            'archives': MultipleFileInput(attrs={'class': 'form-control'})
         }
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['arquivos'].required = False
+        self.fields['archives'].required = False
 
-ArquivoFormSet = modelformset_factory(
-    ArquivoNaNoticia, 
-    form=ArquivosForm, 
+ArchivesFormSet = modelformset_factory(
+    NewsArchives, 
+    form=ArchivesForm, 
     extra=0, 
     can_delete=True
     )
 
-class ComentarioForm(forms.ModelForm):
+class CommentsForm(forms.ModelForm):
     class Meta:
-        model = ComentarioNaNoticia
-        fields = ["comentario"]
-        labels = {"comentario": ""}
+        model = NewsComments
+        fields = ["body"]
+        labels = {"body": ""}
         widgets = {
-            "comentario": forms.TextInput(attrs={
+            "body": forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Digite aqui...',
+                'placeholder': 'Enter your comment...',
                 'style': 'resize:none;margin-left:20px'
             })
         }
 
-class RespostaForm(forms.ModelForm):
+class ResponseForm(forms.ModelForm):
     class Meta:
-        model = ComentarioNaNoticia
-        fields = ["comentario", "pai"]
-        labels = {"comentario": ""}
+        model = NewsComments
+        fields = ["body", "parent"]
+        labels = {"body": ""}
         widgets = {
-            "comentario": forms.TextInput(attrs={
+            "body": forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Digite sua resposta...',
+                'placeholder': 'Enter your answer...',
                 'style': 'resize:none;margin-left:20px'
             }),
-            "pai": forms.HiddenInput()
+            "parent": forms.HiddenInput()
         }

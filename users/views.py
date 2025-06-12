@@ -1,60 +1,92 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from pathlib import Path
 
-from .forms import EditarUserProfileForm
-from base.models import Perfil
-
+from .forms import EditUserProfileForm
+from .models import ReaderProfile
+from news.views import CommentsForm
 
 # Create your views here.
 
 
 def UserProfile(request, pk):
-    usuario = User.objects.get(username=pk)
-
-    perfil = Perfil.objects.get(user=usuario)
-    foto_de_perfil = perfil.foto_de_perfil
-
-    minha_foto_de_perfil = Perfil.objects.get(user=request.user) if request.user.is_authenticated else None
+    user = User.objects.get(username=pk)
 
     context = {
-        "usuario":usuario,
-        "foto_de_perfil":foto_de_perfil,
-        "minha_foto_de_perfil":minha_foto_de_perfil.foto_de_perfil,
-        "perfil":perfil
+        "user":user,
+        "ProfilePictureUser":ReaderProfile.objects.get(user=request.user).ProfilePicture if request.user.is_authenticated else None,
+        "ReaderProfile":ReaderProfile.objects.get(user=user)
     }
     return render(request, "users/profile_user.html", context)
 
 
 @login_required(login_url='/login')
-def EditarUserProfile(request, pk):
-    usuario = User.objects.get(username=pk)
+def EditUserProfile(request, pk):
+    user = User.objects.get(username=pk)
 
-    if request.user.username != pk:
+    if request.user.username != pk and not request.user.is_staff:
         return redirect('user', pk)
 
-    perfil = Perfil.objects.get(user=usuario)
+    ReaderProfileUser = ReaderProfile.objects.get(user=user)
     
-    minha_foto_de_perfil = Perfil.objects.get(user=request.user)
+    ReaderProfileRequestUser = ReaderProfile.objects.get(user=request.user)
 
     if request.method == 'POST':
-        Path(perfil.foto_de_perfil.path).unlink(missing_ok=True)
-        profile_form = EditarUserProfileForm(request.POST, request.FILES)
+        profile_form = EditUserProfileForm(request.POST, request.FILES)
         
         if profile_form.is_valid():
-            perfil.bio = profile_form.cleaned_data['bio']
-            if profile_form.cleaned_data['foto_de_perfil'] !=  None:
-                perfil.foto_de_perfil = profile_form.cleaned_data['foto_de_perfil']
+            ReaderProfileUser.bio = profile_form.cleaned_data['bio']
+            if profile_form.cleaned_data['ProfilePicture']:
+                Path(ReaderProfileUser.ProfilePicture.path).unlink(missing_ok=True)
+                ReaderProfileUser.ProfilePicture = profile_form.cleaned_data['ProfilePicture']
             
-            perfil.save()
+            ReaderProfileUser.save()
             return redirect('user', pk)
 
     else:
-        profile_form = EditarUserProfileForm(instance=perfil)
+        profile_form = EditUserProfileForm(instance=ReaderProfileUser)
     context = {
         "profile_form":profile_form,
-        "minha_foto_de_perfil":minha_foto_de_perfil.foto_de_perfil,
+        "ProfilePictureUser":ReaderProfileRequestUser.ProfilePicture,
     }
     return render(request, "users/editar_profile.html", context)
+
+@login_required(login_url='/login')
+def BlockProfile(request, pk):
+    if request.user.is_staff:
+        profile = ReaderProfile.objects.get(id=pk)
+        if profile.CommentPermission:
+            profile.CommentPermission = False
+            profile.save()
+        else:
+            profile.CommentPermission = True
+            profile.save()
+        return HttpResponse("<h1>Operação concluída com sucesso</h1>")
+    else:
+        return redirect('home')
+
+
+@login_required(login_url='/login')
+def DeleteAllUserComments(request, pk):
+    if request.user.is_staff:
+        profile = ReaderProfile.objects.get(id=pk)
+        profile.CommentPermission = False
+        profile.save()
+        comments = list(CommentsForm.objects.filter(autor=profile))
+        for comment in comments:
+            comment.delete()
+        return HttpResponse("<h1>All comments have been successfully deleted</h1>")
+    else:
+        return redirect('home')
+    
+@login_required(login_url='/login')
+def CommentDelete(request, pk):
+    if request.user.is_staff:
+        comment = CommentsForm.objects.get(id=pk)
+        comment.delete()
+        return HttpResponse("Comment successfully deleted</h1>")
+    else:
+        return redirect('home')

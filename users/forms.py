@@ -1,17 +1,17 @@
 from django.forms import ModelForm
-from base.models import Perfil
+from users.models import ReaderProfile
 from django import forms
 
-class EditarUserProfileForm(ModelForm):
+class EditUserProfileForm(ModelForm):
     class Meta:
-        model = Perfil
-        fields = ['bio', 'foto_de_perfil']
+        model = ReaderProfile
+        fields = ['bio', 'ProfilePicture']
         exclude = ['user']
         widgets = {
             'bio': forms.TextInput(attrs={'class': 'form-control'}),
-            'foto_de_perfil': forms.FileInput(attrs={'class': 'form-control'}),
+            'ProfilePicture': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['foto_de_perfil'].required = False
+        self.fields['ProfilePicture'].required = False
