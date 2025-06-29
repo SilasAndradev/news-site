@@ -1,0 +1,133 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %}Quem Somos | JIFB{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="{% static 'CSS/base/quem-somos.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="entrada">
+  <div class="entrada-container">
+    <div class="entrada-part">
+      <img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png'%}" alt="Logo da Empresa" class="entrada-logo">
+    </div>
+    <div class="vertical-line">
+      <hr>
+    </div>
+    <div class="entrada-part">
+      <div class="entrada-mensagem">
+        <p>QUEM</p>
+        <p>SOMOS</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="quem-somos">
+  <div class="container-quem-somos">
+    <div class="imagem-qs">
+      <img src="{% static 'img/JIFB_direitora.jpg' %}" alt="Imagem dos pensantes do JIFB com Genilda">
+    </div>
+    <div class="texto-qs">
+      <h2>Quem Somos</h2>
+      <p>Somos o JIFB, o Jornal Escolar do IFBaiano – Campus Santa Inês. Criado por estudantes e para a comunidade
+        escolar, nosso objetivo é informar, expressar e conectar. Acreditamos no poder da comunicação como ferramenta
+        para fortalecer o conhecimento, estimular o pensamento crítico e valorizar as vozes do nosso campus.
+
+        Aqui, damos espaço para notícias, entrevistas, cultura, debates e tudo o que movimenta o dia a dia do IFBaiano.
+        Nosso compromisso é com a verdade, a criatividade e a participação ativa dos estudantes na construção de um
+        jornal que represente a todos.
+
+        Seja bem-vindo ao JIFB – a informação que nasce na escola e faz a diferença na comunidade!</p>
+    </div>
+  </div>
+</section>
+
+<section class="docs-section">
+  <div class="docs-container">
+
+    <div class="doc-card estatuto">
+      <h2>Estatuto do Jornal Estudantil</h2>
+      <p>
+        Conheça os princípios, diretrizes e a base que sustenta o JIFB-NEWS – um jornal ético, democrático e feito por
+        estudantes.
+      </p>
+      <a href="{% static 'files/estatuto.pdf' %}" target="_blank" class="btn-doc">
+        Baixar Estatuto em PDF
+      </a>
+    </div>
+
+
+
+    <div class="doc-card regularizacao">
+      <h2>Regularização do Jornal Estudantil</h2>
+      <p>
+        Leia sobre as normas e critérios que garantem a transparência e a continuidade do nosso projeto no IF Baiano –
+        Campus Santa Inês.
+      </p>
+      <a href="{% static 'files/regularizacao.pdf' %}" target="_blank" class="btn-doc">
+        Baixar Regularização em PDF
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cts">
+
+  <hr class="linha-dev">
+  <section class="dev-section">
+    <h2>Equipe de Desenvolvimento</h2>
+        
+     <div class="card back">
+      <div class="card-content">
+        <p class="texto-right">Responsável pelo UI/UX designer do site Jornal-News. Estudante do curso técnico de Informática integrado ao ensino médio. </p>
+        <p class="nome">Arthur Eugênio. 2024</p>
+      </div>
+      <img src="{% static 'img/perfil-arthur.jpg'%}" style="border: #000 2px solid; width: 100px; height: 100px; background-color: #000; border-radius: 50%; margin: 1.5rem;">
+    </div>
+
+    <div class="card front">
+      <div class="card-content">
+        <p class="sobre">Responsável pelo front-end do site Jornal-News. Estudante do curso técnico de Informática integrado ao ensino médio.</p>
+        <p class="nome-left">Guilherme Henrique. 2024</p>
+        <div class="icons">
+          <a href="https://www.instagram.com/guii.henrique/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://github.com/Ghs-d" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/guilherme-henrique-629862355/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <img src="{% static 'img/perfil-gui-dev.png'%}" style="border: #000 2px solid; width: 100px; height: 100px; background-color: #000; border-radius: 50%; margin: 1.5rem;">
+    </div>
+
+     <div class="card back">
+      <div class="card-content">
+        <p class="texto-right">Responsável pelo Back-end do site Jornal-News. Estudante do curso técnico de Informática integrado ao ensino médio.</p>
+        <p class="nome">Silas Andrade. 2024</p>
+        <div class="icons">
+          <a href="https://www.instagram.com/silas3_/" target="_blank"><i class="fab fa-instagram" ></i></a>
+          <a href="https://github.com/SilasAndradev/" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/silasandradev/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <img src="{% static 'img/perfil-silas.jpg'%}" style=" border: #000 2px solid; width: 100px; height: 100px; background-color: #000; border-radius: 50%; margin: 1.5rem;">
+    </div>
+
+    <div class="card front">
+      <div class="card-content">
+        <p class="sobre">Responsável pelo back-end do site Jornal-News. Estudante do curso técnico de Informática integrado ao ensino médio.</p>
+        <p class="nome-left">Lucas da Hora. 2024</p>
+        <div class="icons">
+          <a href="https://www.instagram.com/eoh_vieira/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://github.com/lucasmystOS" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <img src="{% static 'img/perfil-lucas-dev.png'%}" style="border: #000 2px solid; width: 100px; height: 100px; background-color: #000; border-radius: 50%; margin: 1.5rem;">
+    </div>
+
+  </section>
+  {% endblock %}

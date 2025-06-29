@@ -8,9 +8,11 @@ class News(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
     
-    body = models.FileField(upload_to="uploads/noticias/tempFile/")
+    body = models.TextField(blank=True, null=True)
     news_cover = models.ImageField(upload_to="uploads/noticias/CAPAS/%Y/%m/%d")
 
+    tags = models.CharField(max_length=255, blank=True, help_text="Separe as tags por vírgula")
+    
     visible = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

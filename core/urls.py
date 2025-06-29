@@ -2,16 +2,9 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.urls import path
+from django.urls import path, include
 
-from news.views import (
-    newsPublish, 
-    newsEdit, 
-    newsDelete, 
-    newsPage, 
-    Search,
-    
-    )
+
 
 from users.views import (
     UserProfile,
@@ -49,13 +42,7 @@ urlpatterns = [
     path('register/', RegisterUser, name='register'),
     
     # News APP
-    path('post-news/', newsPublish, name='post-news'),
-    path('edit/<str:pk>/', newsEdit, name='edit-user'),
-    path('delete/<str:pk>/', newsDelete, name='delete-noticia'),
-    path('news/<str:pk>/', newsPage, name='noticia'),
-    path('news/feed/', newsPage, name='feed'),
-    path('news/', RedirectToHome),
-    path('search/', Search, name='search'),
+    path('news/', include('news.urls')), 
 
     # Users APP
     path('u/', RedirectToHome),

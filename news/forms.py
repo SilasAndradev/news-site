@@ -25,12 +25,11 @@ class NewsForm(ModelForm):
     class Meta:
         model = News
         fields = '__all__'
-        exclude = ['author']
+        exclude = ['author', 'visible']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'body': forms.FileInput(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'id': 'id_corpo'}),
             'news_cover': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'visible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 class ArchivesForm(forms.ModelForm):
