@@ -10,7 +10,7 @@
 
 {% block content %}
    <div class="entrada-container">
-  <div class="entrada-lg" style="background-image: url('{% static "img/desenho_IFbaianoSI.png" %}');"></div>
+  <div class="entrada-lg"></div>
 
   <img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png'%}" alt="Logo do Jornal" class="entrada-logo">
 
@@ -24,7 +24,7 @@
 </div>
 
 
-{% load news_filters %}
+{% load news_filter %}
 {% load static %} 
 <section class="noticias" id="noticias">
     <div class="container-noticias">
@@ -34,16 +34,16 @@
                     {% if noticia.visivel == True %}
                         <div class="noticia-card">
                             <a href="{% url 'noticia' noticia.id %}">
-                                {% if noticia.capa_noticia %}
-                                    <img src="{{ noticia.capa_noticia.url }}" alt="Capa da Notícia: {{ noticia.título }}">
+                                {% if noticia.news_cover %}
+                                    <img src="{{ noticia.news_cover.url }}" alt="Capa da Notícia: {{ noticia.title }}">
                                 {% else %}
                                     <img src="{% static 'img/placeholder_noticia.jpg' %}" alt="Imagem padrão de notícia">
                                 {% endif %}
                             </a>
                             <div class="noticia-card-content">
-                                <h3>{{noticia.título}}</h3>
-                                <p>Publicado em {{noticia.created|date:"d \de F \de Y \à\s H:i"}}</p>
-                                <p>Criado por {{noticia.autor}}</p>
+                                <h3>{{noticia.title}}</h3>
+                                <p>Publicado em {{noticia.created_at|date:"d \de F \de Y \à\s H:i"}}</p>
+                                <p>Criado por {{noticia.author}}</p>
                                 
                         
                                 {% if noticia.tags %} {# Verifica se o campo tags não está vazio #}

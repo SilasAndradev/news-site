@@ -10,7 +10,7 @@ from news.views import (
     newsPage, 
     Search,
     upload_tinymce_image,
-    FeedNoticiasView,
+    #FeedNoticiasView,
     MeusArtigos
     )
 
@@ -24,7 +24,6 @@ urlpatterns = [
     path('upload_image_tinymce/', upload_tinymce_image, name='upload_tinymce_image'),
     
     
-    path('feed/', FeedNoticiasView, name='feed'), 
     
     path('meus-artigos/', MeusArtigos, name='meus_artigos'), 
 ]

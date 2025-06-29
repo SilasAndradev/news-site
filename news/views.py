@@ -8,6 +8,11 @@ from pathlib import Path
 import markdown
 import os
 
+from django.http import JsonResponse 
+from django.core.files.storage import default_storage 
+from django.views.decorators.csrf import csrf_exempt 
+import bleach
+
 from .forms import (
     NewsForm, 
     ArchivesForm, 
@@ -41,32 +46,29 @@ def newsPublish(request):
 
             # Agora leia o conteúdo do arquivo markdown enviado
             if news.body:
-                markdown_file = news.body
+                allowed_tags = list(bleach.sanitizer.ALLOWED_TAGS) + [ 
+                    'img', 'video', 'source', 'iframe', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                    'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'blockquote', 'pre', 'code', 'table',
+                    'thead', 'tbody', 'tr', 'th', 'td'
+                ]
+                allowed_attrs = {
+                    **bleach.sanitizer.ALLOWED_ATTRIBUTES, 
+                    'img': ['src', 'alt', 'width', 'height', 'style'],
+                    'a': ['href', 'title', 'target', 'rel'],
+                    'iframe': ['src', 'width', 'height', 'allowfullscreen', 'frameborder'],
+                    'video': ['src', 'controls', 'width', 'height'],
+                    'source': ['src', 'type'],
+                    '*': ['style', 'class', 'id'], 
+                }
+                
 
-                # Abrir o arquivo salvo no servidor
-                with markdown_file.open(mode='rb') as f:
-                    markdown_content = f.read().decode('utf-8')
+                news.body = bleach.clean(
+                    news.body,
+                    tags=allowed_tags,
+                    attributes=allowed_attrs,
+                    strip=True
+                )
 
-                # Converte para HTML
-                html_content = markdown.markdown(markdown_content)
-
-                # Gera caminho do arquivo HTML com base na data/hora
-                now = timezone.now()
-                file_name = now.strftime(f"{news.title}") + ".html"
-                html_path = os.path.join("uploads", "news", now.strftime(f"%Y/%m/%d/{news.title}"))
-                full_path = os.path.join(settings.MEDIA_ROOT, html_path)
-                os.makedirs(full_path, exist_ok=True)
-
-                full_file_path = os.path.join(full_path, file_name)
-                relative_file_path = os.path.join(html_path, file_name)
-
-                # Salva o conteúdo HTML em um novo arquivo
-                with open(full_file_path, "w", encoding="utf-8") as html_file:
-                    html_file.write(html_content)
-
-                # Atualiza o campo corpo com o caminho do HTML gerado
-                news.body.name = relative_file_path
-                Path(markdown_file).unlink(missing_ok=True)
                 news.save()
 
             # Salva archives adicionais, se existirem
@@ -90,61 +92,68 @@ def newsPublish(request):
 
 
 
+@csrf_exempt 
+@login_required(login_url='/login')
+def upload_tinymce_image(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        img_file = request.FILES['file']
+        
+        upload_dir = os.path.join('uploads', 'news', 'editor_images', timezone.now().strftime("%Y/%m/%d/"))
+        
+     
+        full_upload_path = os.path.join(settings.MEDIA_ROOT, upload_dir)
+        os.makedirs(full_upload_path, exist_ok=True)
+
+        file_path_in_media = default_storage.save(os.path.join(upload_dir, img_file.name), img_file)
+
+      
+        file_url = request.build_absolute_uri(default_storage.url(file_path_in_media))
+        
+        return JsonResponse({'location': file_url}) # TinyMCE espera uma resposta JSON com o campo 'location'
+    return JsonResponse({'error': 'No image file uploaded'}, status=400)
 
 def newsPage(request, pk):
-    if pk.isnumeric():
-        news = get_object_or_404(News, id=pk)
-        archives = NewsArchives.objects.filter(news=news)
-        comentarios = NewsComments.objects.filter(news=news).order_by('-data')
+    news = News.objects.get(id=pk)
+    archives = NewsArchives.objects.filter(news=news)
+    comentarios = NewsComments.objects.filter(news=news).order_by('-data')
 
-        if news.visivel or ( not news.visivel and request.user.is_staff):
-            conteudo_html = news.corpo
-            perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
-
-            if request.method == 'POST' and request.user.is_authenticated:
-                if not perfil.pode_comentar:
-                    return HttpResponse('<h1>Você está proibido de comentar</h1>')
-
-                if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
-                    form = ResponseForm(request.POST)
-                else:
-                    form = CommentsForm(request.POST)
-
-                if form.is_valid():
-                    comentario = form.save(commit=False)
-                    comentario.autor = perfil
-                    comentario.news = news
-                    comentario.save()
-                    return redirect('news', pk=pk)
-
-            context = {
-                'conteudo_html':conteudo_html,
-                'news': news,
-                'archives': archives,
-                'comentarios': comentarios,
-                'comentario_form': CommentsForm(),
-                'resposta_form': ResponseForm(),
-                'ProfilePictureUser': perfil.ProfilePicture if perfil else None,
-                'perfil': perfil,
-                'numero_de_comentarios': len(comentarios)
-            }
-
-            if not news.visivel:
-                context['aviso'] = "Essa notícia não está visível para os usuários"
-
-            return render(request, "news/news_page.html", context)
-        else:
-            return redirect('feed')
-
-    elif pk == 'feed':
-        news = News.objects.all().order_by('-updated_at')
+    if news.visivel or ( not news.visivel and request.user.is_staff):
+        conteudo_html = news.corpo
         perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
-        return render(request, "news/feed.html", {
+
+        if request.method == 'POST' and request.user.is_authenticated:
+            if not perfil.pode_comentar:
+                return HttpResponse('<h1>Você está proibido de comentar</h1>')
+
+            if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
+                form = ResponseForm(request.POST)
+            else:
+                form = CommentsForm(request.POST)
+
+            if form.is_valid():
+                comentario = form.save(commit=False)
+                comentario.autor = perfil
+                comentario.news = news
+                comentario.save()
+                return redirect('news', pk=pk)
+
+        context = {
+            'conteudo_html':conteudo_html,
             'news': news,
-            'ProfilePictureUser': perfil.ProfilePicture if perfil else None
-        })
-    else:
-        return redirect('feed')
+            'archives': archives,
+            'comentarios': comentarios,
+            'comentario_form': CommentsForm(),
+            'resposta_form': ResponseForm(),
+            'ProfilePictureUser': perfil.ProfilePicture if perfil else None,
+            'perfil': perfil,
+            'numero_de_comentarios': len(comentarios)
+        }
+
+        if not news.visible:
+            context['aviso'] = "Essa notícia não está visível para os usuários"
+
+        return render(request, "news/news_page.html", context)
+
     
     
 @login_required(login_url='/login')
@@ -170,30 +179,27 @@ def newsEdit(request, pk):
             news_form.save()
             
             if news.corpo:
-                markdown_file = news.corpo
-
-                # Abrir o arquivo salvo no servidor
-                with markdown_file.open(mode='rb') as f:
-                    markdown_content = f.read().decode('utf-8')
-
-                # Converte para HTML
-                html_content = markdown.markdown(markdown_content)
-
-                now = timezone.now()
-                file_name = now.strftime(f"{news.title}") + ".html"
-                html_path = os.path.join("uploads", "news", now.strftime(f"%Y/%m/%d/{news.title}"))
-                full_path = os.path.join(settings.MEDIA_ROOT, html_path)
-                os.makedirs(full_path, exist_ok=True)
-
-                full_file_path = os.path.join(full_path, file_name)
-                relative_file_path = os.path.join(html_path, file_name)
-
-                # Salva o conteúdo HTML em um novo arquivo
-                with open(full_file_path, "w", encoding="utf-8") as html_file:
-                    html_file.write(html_content)
-
-                # Atualiza o campo corpo com o caminho do HTML gerado
-                news.body.name = relative_file_path
+                allowed_tags = list(bleach.sanitizer.ALLOWED_TAGS) + [ 
+                    'img', 'video', 'source', 'iframe', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                    'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'blockquote', 'pre', 'code', 'table',
+                    'thead', 'tbody', 'tr', 'th', 'td'
+                ]
+                allowed_attrs = {
+                    **bleach.sanitizer.ALLOWED_ATTRIBUTES, 
+                    'img': ['src', 'alt', 'width', 'height', 'style'],
+                    'a': ['href', 'title', 'target', 'rel'],
+                    'iframe': ['src', 'width', 'height', 'allowfullscreen', 'frameborder'],
+                    'video': ['src', 'controls', 'width', 'height'],
+                    'source': ['src', 'type'],
+                    '*': ['style', 'class', 'id'], 
+                }
+    
+                news.corpo = bleach.clean(
+                    news.corpo,
+                    tags=allowed_tags,
+                    attributes=allowed_attrs,
+                    strip=True
+                )
                 news.save()
 
             # Esse loop vai salvar os archives editados
@@ -289,3 +295,16 @@ def Search(request):
         'ProfilePictureUser':ProfilePicture
     }
     return render(request, "news/search.html", context)
+
+
+@login_required(login_url='/login') 
+def MeusArtigos(request):
+    meus_artigos = News.objects.filter(author=request.user).order_by('-created_at')
+    perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
+
+    context = {
+        'meus_artigos': meus_artigos,
+        'minha_foto_de_perfil': perfil.ProfilePicture if perfil else None,
+        'perfil': perfil,
+    }
+    return render(request, 'news/meus_artigos.html', context)
