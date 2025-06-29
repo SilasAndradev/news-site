@@ -21,6 +21,7 @@ from .views import (
     LoginPage,
     LogoutUser,
     RegisterUser,
+    QuemSomosPage
     
 )
 
@@ -40,7 +41,7 @@ urlpatterns = [
     path('login/', LoginPage, name='login'),
     path('logout/', LogoutUser, name='logout'),
     path('register/', RegisterUser, name='register'),
-    
+    path('quem-somos/', QuemSomosPage, name='quem_somos'),
     # News APP
     path('news/', include('news.urls')), 
 

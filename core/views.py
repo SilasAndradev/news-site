@@ -12,6 +12,8 @@ from users.models import ReaderProfile
 def RedirectToHome(request):
     return redirect('home')
 
+def QuemSomosPage(request):
+    return render(request, 'core/quemsomos.html')
 
 def NotFoundPage(request):
     return render(request, '404.html')
