@@ -14,22 +14,22 @@
         {% if meus_artigos %}
             {% for artigo in meus_artigos %}
                 <div class="artigo-item">
-                    {% if artigo.capa_noticia %}
+                    {% if artigo.news_cover%}
                         <img src="{{ artigo.capa_noticia.url }}" alt="Capa" class="artigo-item-thumb">
                     {% else %}
                         <img src="{% static 'img/placeholder_noticia.jpg' %}" alt="Placeholder" class="artigo-item-thumb">
                     {% endif %}
                     
                     <div class="artigo-item-info">
-                        <h3><a href="{% url 'noticia' artigo.id %}" style="text-decoration: none; color: #333;">{{ artigo.título }}</a></h3>
-                        <p>Publicado em: {{ artigo.created|date:"d/m/Y H:i" }}</p>
-                        <p>Visível: {% if artigo.visivel %}Sim{% else %}Não{% endif %}</p>
+                        <h3><a href="{% url 'noticia' artigo.id %}" style="text-decoration: none; color: #333;">{{ artigo.title }}</a></h3>
+                        <p>Publicado em: {{ artigo.created_at|date:"d/m/Y H:i" }}</p>
+                        <p>Visível: {% if artigo.visible %}Sim{% else %}Não{% endif %}</p>
                     </div>
                     <div class="artigo-item-actions">
                         <a href="{% url 'editar_noticia' artigo.id %}" class="btn btn-sm btn-primary">
                             <i class="fas fa-pen"></i> Editar
                         </a>
-                        <a href="{% url 'excluir_noticia' artigo.id %}" class="btn btn-sm btn-danger">
+                        <a href="{% url 'delete' artigo.id %}" class="btn btn-sm btn-danger">
                             <i class="fas fa-trash-alt"></i> Excluir
                         </a>
                     </div>

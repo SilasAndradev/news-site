@@ -19,9 +19,6 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'quem_somos' %}">Quem somos</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'feed' %}">Ver notícias</a> {# Sugestão: Use {% url 'feed' %} diretamente #}
-        </li>
 
         {% if request.user.is_staff %}
         <li class="nav-item dropdown">
@@ -30,7 +27,7 @@
             Área do Jornalista
           </a>
           <ul class="dropdown-menu" aria-labelledby="jornalistaDropdown">
-            <li><a class="dropdown-item" href="{% url 'publicar_noticia' %}">Publicar Nova Notícia</a></li>
+            <li><a class="dropdown-item" href="{% url 'post-news' %}">Publicar Nova Notícia</a></li>
          
             <li><a class="dropdown-item" href="{% url 'meus_artigos' %}">Meus Artigos</a></li> 
           </ul>
@@ -47,7 +44,7 @@
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item me-3">
-          <form class="search-box" role="search" method="GET" action="{% url 'procurar_noticia' %}">
+          <form class="search-box" role="search" method="GET" action="{% url 'search' %}">
             <input class="search-txt" type="text" name="pesquisa" placeholder="Pesquisar" aria-label="Pesquisar" autocomplete="off" />
             <button type="submit" class="search-button" aria-label="Pesquisar">
               <i class="fas fa-search"></i>
