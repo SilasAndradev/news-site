@@ -17,10 +17,10 @@
                         </div>
                     {% else %}
                             {% for noticia in news %}
-                                {% if noticia.visivel == True %}
+                                {% if noticia.visible %}
                                 <div class="noticia-card">
-                                    <a href="{% url 'noticia' noticia.id %}">
-                                        <img src="{{ noticia.capa_noticia.url }}" alt="Notícia {{ noticia.id }}">
+                                    <a href="{% url 'news' noticia.id %}">
+                                        <img src="{{ news.news_cover.url }}" alt="Notícia {{ noticia.id }}">
                                     </a>
                                     <div class="noticia-card-content">
                                         <h3>{{noticia.title}}</h3>

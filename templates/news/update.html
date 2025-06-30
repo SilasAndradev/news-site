@@ -11,38 +11,38 @@
 
 {% block content %}
 <div class="form-container">
-    <h2 class="mb-4">Editar Notícia: {{ noticia.título }}</h2> 
+    <h2 class="mb-4">Editar Notícia: {{ noticia.title }}</h2> 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
         {# Renderização manual dos campos para maior controle e para o TinyMCE #}
         <div class="mb-3">
-            <label for="{{ noticia_form.título.id_for_label }}" class="form-label">Título:</label>
-            {{ noticia_form.título }}
+            <label for="{{ news_form.title.id_for_label }}" class="form-label">Título:</label>
+            {{ news_form.title }}
         </div>
 
         <div class="mb-3">
-            <label for="{{ noticia_form.tags.id_for_label }}" class="form-label">Tags (separadas por vírgula):</label>
-            {{ noticia_form.tags }}
+            <label for="{{ news_form.tags.id_for_label }}" class="form-label">Tags (separadas por vírgula):</label>
+            {{ news_form.tags }}
         </div>
 
         <div class="mb-3">
-            <label for="{{ noticia_form.capa_noticia.id_for_label }}" class="form-label">Imagem da Capa:</label>
-            {% if noticia.capa_noticia %}
-                <img src="{{ noticia.capa_noticia.url }}" alt="Capa atual" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px;">
-                <p>Atualmente: <a href="{{ noticia.capa_noticia.url }}" target="_blank">{{ noticia.capa_noticia.name }}</a></p>
+            <label for="{{ news_form.news_cover.id_for_label }}" class="form-label">Imagem da Capa:</label>
+            {% if news.news_cover %}
+                <img src="{{ news.news_cover.url }}" alt="Capa atual" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px;">
+                <p>Atualmente: <a href="{{ news.news_cover.url }}" target="_blank">{{ news.news_cover.name }}</a></p>
             {% endif %}
-            {{ noticia_form.capa_noticia }}
+            {{ news_form.news_cover }}
         </div>
 
         <div class="mb-3">
             <label for="id_corpo" class="form-label">Conteúdo do Artigo:</label>
-            {{ noticia_form.corpo }} 
+            {{ news_form.body }} 
         </div>
 
         <div class="mb-3 form-check">
-            {{ noticia_form.visivel.label_tag }}
-            {{ noticia_form.visivel }}
+            {{ news_form.visible.label_tag }}
+            {{ news_form.visible }}
         </div>
         
         <h3 class="mt-4 mb-3">Arquivos Existentes</h3>

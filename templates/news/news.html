@@ -2,13 +2,13 @@
 <section>
 
   <div class="noticia">
-    {% if news.visivel == False and request.user.is_staff == True %}
+    {% if not news.visible and request.user.is_staff %}
 
     <h3>{{aviso}}</h3>
 
     {% endif %}
 
-    {% if request.user.is_staff == True %}
+    {% if request.user.is_staff %}
     <div class="d-flex gap-2 mb-3">
       <a href="{% url 'edit-news' news.id %}" class="btn btn-sm btn-warning">
         <i class="fas fa-pen"></i> Editar

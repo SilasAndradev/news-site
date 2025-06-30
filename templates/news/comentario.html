@@ -1,17 +1,16 @@
 {% load static %}
 
-<!-- Certifique-se de que isso está no seu base.html -->
 
 <div class="comment-item mb-4">
   <div class="user d-flex align-items-center gap-2">
     <div class="user-pic rounded-circle overflow-hidden" style="width:40px;height:40px;">
-      <a href="{% url 'user' comentario.autor.user.username %}">
-        <img src="{{ comentario.autor.foto_de_perfil.url }}" alt="Avatar" style="width:100%;height:100%;">
+      <a href="{% url 'user' comentario.author.user.username %}">
+        <img src="{{ comentario.author.ProfilePicture.url }}" alt="Avatar" style="width:100%;height:100%;">
       </a>
     </div>
     <div class="user-info">
-      <span class="fw-bold">@{{ comentario.autor.user.username }}</span>
-      <p class="text-muted small mb-0">{{ comentario.created|date:"d M Y - H:i" }}</p>
+      <span class="fw-bold">@{{ comentario.author.user.username }}</span>
+      <p class="text-muted small mb-0">{{ comentario.created_at|date:"d M Y - H:i" }}</p>
     </div>
     {% if request.user.is_staff %}
     <div class="ms-auto dropdown">
@@ -19,17 +18,15 @@
         <i class="fas fa-ellipsis-vertical"></i>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{% url 'apagar-comentarios' comentario.autor.id %}"><i
-              class="fas fa-pen me-2"></i>Apagar tudo</a></li>
-        {% if comentario.autor.pode_comentar %}
-        <li><a class="dropdown-item text-danger" href="{% url 'bloquear-user' comentario.autor.id %}"><i
-              class="fas fa-trash me-2"></i>Bloquear</a></li>
+        {% if comentario.author.CommentPermission %}
+        <li><a class="dropdown-item text-danger" href="{% url 'block-user' comentario.author.id %}"><i
+              class="fas fa-trash me-2"></i>Silenciar</a></li>
 
         {% else %}
-        <li><a class="dropdown-item text-danger" href="{% url 'bloquear-user' comentario.autor.id %}"><i
-              class="fas fa-trash me-2"></i>Desbloquear</a></li>
+        <li><a class="dropdown-item text-danger" href="{% url 'block-user' comentario.author.id %}"><i
+              class="fas fa-trash me-2"></i>Desilenciar</a></li>
         {% endif %}
-        <li><a class="dropdown-item text-danger" href="{% url 'excluir-comentario' comentario.id %}"><i
+        <li><a class="dropdown-item text-danger" href="{% url 'delete-comment' comentario.id %}"><i
               class="fas fa-trash me-2"></i>Excluir</a></li>
       </ul>
     </div>
@@ -37,7 +34,7 @@
   </div>
 
   <div class="comment-content">
-    {{ comentario.comentario }}
+    {{ comentario.body }}
   </div>
 
   <!-- botão para mostrar formulário de resposta -->
@@ -46,7 +43,7 @@
   </button>
 
   <div id="reply-{{ comentario.id }}" class="reply-form mt-3 ps-5" style="display:none;">
-    {% if request.user.is_authenticated and perfil.pode_comentar %}
+    {% if request.user.is_authenticated and perfil.CommentPermission %}
     <form method="POST" action="">
       {% csrf_token %}
       {{ resposta_form.as_p }}

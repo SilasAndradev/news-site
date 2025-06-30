@@ -29,7 +29,7 @@
 
   <div class="comment-container" id="lista-comentarios">
     {% for comentario in comentarios %}
-    {% if not comentario.pai %}
+    {% if not comentario.parent %}
     {% include 'news/comentario.html' with comentario=comentario noticia=news %}
     {% endif %}
     {% endfor %}
