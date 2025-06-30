@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.conf import settings
 from django.db.models import Q
 from pathlib import Path
-import markdown
 import os
 
 from django.http import JsonResponse 
@@ -40,11 +39,8 @@ def newsPublish(request):
             news = news_form.save(commit=False)
             news.author = request.user
 
-             # Lê o conteúdo Markdown do arquivo enviado
-            # Primeiro, salve a notícia com o arquivo markdown
             news.save()
 
-            # Agora leia o conteúdo do arquivo markdown enviado
             if news.body:
                 allowed_tags = list(bleach.sanitizer.ALLOWED_TAGS) + [ 
                     'img', 'video', 'source', 'iframe', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -71,7 +67,6 @@ def newsPublish(request):
 
                 news.save()
 
-            # Salva archives adicionais, se existirem
             for arquivo in request.FILES.getlist('archives'):
                 if arquivo:
                     NewsArchives.objects.create(news=news, archives=arquivo)
@@ -122,20 +117,18 @@ def newsPage(request, pk):
         perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
 
         if request.method == 'POST' and request.user.is_authenticated:
-            if not perfil.pode_comentar:
-                return HttpResponse('<h1>Você está proibido de comentar</h1>')
+            if perfil.CommentPermission:
+                if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
+                    form = ResponseForm(request.POST)
+                else:
+                    form = CommentsForm(request.POST)
 
-            if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
-                form = ResponseForm(request.POST)
-            else:
-                form = CommentsForm(request.POST)
-
-            if form.is_valid():
-                comentario = form.save(commit=False)
-                comentario.autor = perfil
-                comentario.news = news
-                comentario.save()
-                return redirect('news', pk=pk)
+                if form.is_valid():
+                    comentario = form.save(commit=False)
+                    comentario.author = perfil
+                    comentario.news = news
+                    comentario.save()
+                    return redirect('news', pk=pk)
 
         context = {
             'conteudo_html':conteudo_html,
@@ -153,6 +146,8 @@ def newsPage(request, pk):
             context['aviso'] = "Essa notícia não está visível para os usuários"
 
         return render(request, "news/news_page.html", context)
+    else:
+        return redirect('home')
 
     
     
@@ -162,7 +157,7 @@ def newsEdit(request, pk):
     news = News.objects.get(id=pk)
 
     if not request.user.is_staff:
-        return HttpResponse("<h1>Somente o autor pode alterar alguma coisa dessa notícia!</h1>")
+        return redirect('noticia', pk=pk)
 
 
     if request.method == 'POST':
@@ -174,11 +169,11 @@ def newsEdit(request, pk):
 
         if news_form.is_valid() and archives_formset.is_valid():
             news = news_form.save(commit=False)
-            news.autor = request.user
+            news.author = request.user
             archives = archives_formset.save(commit=False)
             news_form.save()
             
-            if news.corpo:
+            if news.body:
                 allowed_tags = list(bleach.sanitizer.ALLOWED_TAGS) + [ 
                     'img', 'video', 'source', 'iframe', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
                     'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'blockquote', 'pre', 'code', 'table',
@@ -194,21 +189,19 @@ def newsEdit(request, pk):
                     '*': ['style', 'class', 'id'], 
                 }
     
-                news.corpo = bleach.clean(
-                    news.corpo,
+                news.body = bleach.clean(
+                    news.body,
                     tags=allowed_tags,
                     attributes=allowed_attrs,
                     strip=True
                 )
                 news.save()
 
-            # Esse loop vai salvar os archives editados
             for archive in archives:
                 archive.news = news
                 archive.save()
             
             
-            # Esse loop vai deletar os archives
             for obj in archives_formset.deleted_objects:
                 archives = NewsArchives.objects.filter(news=obj.news)
 
@@ -224,7 +217,6 @@ def newsEdit(request, pk):
                 
             new_files = request.FILES.getlist('new_files')
             
-            # Esse loop vai criar novos Arquivos
             for file in new_files:
                 NewsArchives.objects.create(news=news, archives=file)
             
@@ -252,10 +244,9 @@ def newsDelete(request, pk):
     news = News.objects.get(id=pk)
 
     if not request.user.is_staff:
-        return HttpResponse("<h1>Somente o autor pode alterar alguma coisa dessa notícia!</h1>")
+        return redirect('noticia', pk=pk)
 
     if request.method == 'POST':
-        # Exclui archives relacionados à notícia
         archives = NewsArchives.objects.filter(news=news.id)
         for arquivo in archives:
             try:
