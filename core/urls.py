@@ -24,6 +24,7 @@ from .views import (
     QuemSomosPage
     
 )
+from news.views import newsPage
 
 """
 @api.get("/add")
@@ -44,7 +45,7 @@ urlpatterns = [
     path('quem-somos/', QuemSomosPage, name='quem_somos'),
     # News APP
     path('news/', include('news.urls')), 
-
+    path('news/<str:pk>/', newsPage, name='news'),
     # Users APP
     path('u/', RedirectToHome),
     path('u/<str:pk>', UserProfile, name='user'),
@@ -61,4 +62,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+                          )
