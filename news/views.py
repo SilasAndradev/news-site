@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
 from django.conf import settings
@@ -66,12 +67,10 @@ def newsPublish(request):
                 )
 
                 news.save()
+            
+            NewsArchives.objects.create(news=news)
 
-            for arquivo in request.FILES.getlist('archives'):
-                if arquivo:
-                    NewsArchives.objects.create(news=news, archives=arquivo)
-
-            return redirect('feed')
+            return redirect('meus_artigos')
             
     else:
         news_form = NewsForm()
@@ -104,42 +103,42 @@ def upload_tinymce_image(request):
       
         file_url = request.build_absolute_uri(default_storage.url(file_path_in_media))
         
-        return JsonResponse({'location': file_url}) # TinyMCE espera uma resposta JSON com o campo 'location'
+        return JsonResponse({'location': file_url})
     return JsonResponse({'error': 'No image file uploaded'}, status=400)
 
 def newsPage(request, pk):
     news = News.objects.get(id=pk)
     archives = NewsArchives.objects.filter(news=news)
-    comentarios = NewsComments.objects.filter(news=news).order_by('-data')
+    comments = NewsComments.objects.filter(news=news).order_by('-created_at')
 
-    if news.visivel or ( not news.visivel and request.user.is_staff):
-        conteudo_html = news.corpo
+    if news.visible or ( not news.visible and request.user.is_staff):
+        conteudo_html = news.body
         perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
 
         if request.method == 'POST' and request.user.is_authenticated:
             if perfil.CommentPermission:
-                if 'pai' in request.POST and request.POST.get('pai'):  # É resposta
+                if 'pai' in request.POST and request.POST.get('pai'):
                     form = ResponseForm(request.POST)
                 else:
                     form = CommentsForm(request.POST)
 
                 if form.is_valid():
-                    comentario = form.save(commit=False)
-                    comentario.author = perfil
-                    comentario.news = news
-                    comentario.save()
+                    comment.author = perfil
+                    comment.news = news
+                    comment.save()
+                    comment = form.save(commit=False)
                     return redirect('news', pk=pk)
 
         context = {
             'conteudo_html':conteudo_html,
             'news': news,
             'archives': archives,
-            'comentarios': comentarios,
+            'comentarios': comments,
             'comentario_form': CommentsForm(),
             'resposta_form': ResponseForm(),
             'ProfilePictureUser': perfil.ProfilePicture if perfil else None,
             'perfil': perfil,
-            'numero_de_comentarios': len(comentarios)
+            'numero_de_comentarios': len(comments)
         }
 
         if not news.visible:
@@ -218,7 +217,7 @@ def newsEdit(request, pk):
             new_files = request.FILES.getlist('new_files')
             
             for file in new_files:
-                NewsArchives.objects.create(news=news, archives=file)
+                NewsArchives.objects.create(news=news)
             
             return redirect('home')
 
@@ -272,7 +271,7 @@ def newsDelete(request, pk):
 
 def Search(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    news = News.objects.all().order_by('-updated_at').filter(
+    news = News.objects.all().order_by('-created_at').filter(
         Q(title__icontains=q) &
         Q(visible=True)
         )
@@ -290,11 +289,11 @@ def Search(request):
 
 @login_required(login_url='/login') 
 def MeusArtigos(request):
-    meus_artigos = News.objects.filter(author=request.user).order_by('-created_at')
+    news = News.objects.filter(author=request.user).order_by('-created_at')
     perfil = ReaderProfile.objects.get(user=request.user) if request.user.is_authenticated else None
 
     context = {
-        'meus_artigos': meus_artigos,
+        'meus_artigos': news,
         'minha_foto_de_perfil': perfil.ProfilePicture if perfil else None,
         'perfil': perfil,
     }

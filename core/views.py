@@ -13,14 +13,17 @@ def RedirectToHome(request):
     return redirect('home')
 
 def QuemSomosPage(request):
-    return render(request, 'core/quemsomos.html')
+    context = {
+        'ProfilePictureUser': ReaderProfile.objects.get(user=request.user).ProfilePicture if request.user.is_authenticated else None,
+    }
+    return render(request, 'core/quemsomos.html', context)
 
 def NotFoundPage(request):
     return render(request, '404.html')
 
 
 def LoginPage(request):
-
+    
     if request.user.is_authenticated:
         return redirect('home')
 

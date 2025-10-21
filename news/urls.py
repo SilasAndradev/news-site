@@ -7,8 +7,7 @@ from news.views import (
     newsPublish, 
     newsEdit, 
     newsDelete, 
-    newsPage, 
-    Search,
+
     upload_tinymce_image,
     #FeedNoticiasView,
     MeusArtigos
@@ -16,9 +15,9 @@ from news.views import (
 
 urlpatterns = [
     path('post-news/', newsPublish, name='post-news'),
-    path('edit/<str:pk>/', newsEdit, name='edit-user'),
-    path('delete/<str:pk>/', newsDelete, name='delete-noticia'),
-    path('search/', Search, name='search'),
+    path('edit/<str:pk>/', newsEdit, name='edit-news'),
+    path('delete/<str:pk>/', newsDelete, name='delete-news'),
+
 
     path('upload_image_tinymce/', upload_tinymce_image, name='upload_tinymce_image'),
     

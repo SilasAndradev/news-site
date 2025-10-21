@@ -24,7 +24,7 @@ from .views import (
     QuemSomosPage
     
 )
-from news.views import newsPage
+from news.views import newsPage, Search
 
 """
 @api.get("/add")
@@ -46,6 +46,7 @@ urlpatterns = [
     # News APP
     path('news/', include('news.urls')), 
     path('news/<str:pk>/', newsPage, name='news'),
+    path('search/', Search, name='search'),
     # Users APP
     path('u/', RedirectToHome),
     path('u/<str:pk>', UserProfile, name='user'),
