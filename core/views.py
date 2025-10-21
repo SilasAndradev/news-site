@@ -12,12 +12,6 @@ from users.models import ReaderProfile
 def RedirectToHome(request):
     return redirect('home')
 
-def QuemSomosPage(request):
-    context = {
-        'ProfilePictureUser': ReaderProfile.objects.get(user=request.user).ProfilePicture if request.user.is_authenticated else None,
-    }
-    return render(request, 'core/quemsomos.html', context)
-
 def NotFoundPage(request):
     return render(request, '404.html')
 

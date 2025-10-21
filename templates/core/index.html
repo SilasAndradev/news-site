@@ -3,14 +3,12 @@
 {% block title %}JIFB{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'CSS/base/noticias.css' %}">
-    <link rel="stylesheet" href="{% static 'CSS/base/eventos.css' %}">
-    <link rel="stylesheet" href="{% static 'CSS/base/style.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/core/style.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="entrada-container">
-        <div class="entrada-lg"></div>
+   <div class="entrada-container">
+  <div class="entrada-lg" style="background-image: url('{% static "img/desenho_IFbaianoSI.png" %}');"></div>
 
   <img src="{% static 'img/LOGO_JIFB_SEM_FUNDO.png'%}" alt="Logo do Jornal" class="entrada-logo">
 
@@ -24,16 +22,16 @@
 </div>
 
 
-{% load news_filter %}
+{% load news_filters %}
 {% load static %} 
 <section class="noticias" id="noticias">
     <div class="container-noticias">
         <section class="noticias">
             <div class="noticias-container">
-                {% for noticia in noticias %}
-                    {% if noticia.visivel == True %}
+                {% for noticia in news %}
+                    {% if noticia.visible %}
                         <div class="noticia-card">
-                            <a href="{% url 'noticia' noticia.id %}">
+                            <a href="{% url 'news' noticia.id %}">
                                 {% if noticia.news_cover %}
                                     <img src="{{ noticia.news_cover.url }}" alt="Capa da Notícia: {{ noticia.title }}">
                                 {% else %}
@@ -41,9 +39,9 @@
                                 {% endif %}
                             </a>
                             <div class="noticia-card-content">
-                                <h3>{{noticia.title}}</h3>
-                                <p>Publicado em {{noticia.created_at|date:"d \de F \de Y \à\s H:i"}}</p>
-                                <p>Criado por {{noticia.author}}</p>
+                                <h3>{{noticia.título}}</h3>
+                                <p>Publicado em {{ noticia.created_at }}</p>
+                                <p>Criado por {{noticia.author.username}}</p>
                                 
                         
                                 {% if noticia.tags %} {# Verifica se o campo tags não está vazio #}
@@ -57,7 +55,7 @@
                                     </div>
                                 {% endif %}
 
-                                <a href="{% url 'noticia' noticia.id %}" class="noticia-leia">Leia mais</a>
+                                <a href="{% url 'news' noticia.id %}" class="noticia-leia">Leia mais</a>
                             </div>
                         </div>
                     {% endif %}

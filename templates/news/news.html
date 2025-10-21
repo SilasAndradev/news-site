@@ -1,4 +1,3 @@
-{% load static %}
 <section>
 
   <div class="noticia">
@@ -26,6 +25,8 @@
 
 
     <img src="{{ news.news_cover.url }}" alt="Capa da Notícia" class="capa">
-    <include src="{{ conteudo_html.url }}" class=""></include>
+    <div>
+      {{ news.body }}
+    </div>
   </div>
 </section>
