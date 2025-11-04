@@ -1,4 +1,4 @@
-# Jornal IF Baiano
+# news-site
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/SilasAndradev/news-site?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/SilasAndradev/news-site?style=for-the-badge)
