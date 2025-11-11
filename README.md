@@ -6,7 +6,7 @@
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
-> O news-site é um projeto de um site onde será mostrada inicialmente notícias sobre e para o meu Campus do Instituto Federal Baiano.
+> Desenvolvi o news-site como projeto pessoal, utilizando Django, com foco em organização, desempenho e usabilidade. O sistema permite a criação, edição e exclusão de notícias e suporte a upload de arquivos, oferecendo uma experiência completa de gerenciamento de publicações.
 
 ## 🤝 Contribuidor 
 
