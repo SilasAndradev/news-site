@@ -1,8 +1,8 @@
 # news-site
 
-![GitHub repo size](https://img.shields.io/github/repo-size/SilasAndradev/news-site?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/SilasAndradev/news-site?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/SilasAndradev/news-site?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/silas-andrade/news-site?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/silas-andrade/news-site?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/silas-andrade/news-site?style=for-the-badge)
 
 <img src="static/img/exemplo_site.png" alt="Exemplo imagem">
 
